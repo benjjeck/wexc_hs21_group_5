@@ -2,28 +2,38 @@ const intervals = [15, 30, 60, 120];
 const startTime = new Date('2021-10-10T08:00:00')
 const numOfLines = 10;
 
-let interval, canvas, slider, ctx;
-
+let interval, canvas, ctx;
+let currentIntervalIdx = 1;
 
 const draw = () => {
 	console.log('draw called')
 
 	canvas = document.getElementById('canvas');
 	slider = document.getElementById('scaleSlider');
-	if (canvas.getContext && slider) {
+	if (canvas.getContext) {
 		ctx = canvas.getContext('2d');
 		
 		drawCanvas();
 	}
 }
 
-const sliderInput = () => {
-	document.getElementById('rangeOutput').innerHTML = slider.value;
-	drawCanvas();
-}
 
-const drawCanvas = () => {
-	interval = intervals[slider.value - 1];
+const drawCanvas = (e) => {
+	if(e){
+		var pos = getMousePos(canvas, e);
+		const rectHeight = canvas.height / 4;
+
+		for(let i=1; i < 5; i++){
+			const currentRangeStart = (i-1) * rectHeight;
+			const currentRangeEnd = i * rectHeight;
+			if(pos.y > currentRangeStart && pos.y < currentRangeEnd){
+				currentIntervalIdx = i - 1;
+				drawBackground();
+			}
+		}
+	}
+
+	interval = intervals[currentIntervalIdx];
 
 	drawBackground();
 
@@ -83,7 +93,7 @@ const drawBackground = () => {
 	ctx.fillStyle = '#84B8D9';
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-	const activeY = (4 - slider.value) * rectHeight;
+	const activeY = currentIntervalIdx * rectHeight;
 	ctx.fillStyle = '#369AD9';
 	ctx.fillRect(0, activeY, canvas.width, rectHeight);
 
@@ -102,3 +112,17 @@ const drawBackground = () => {
 	ctx.stroke();
 
 }
+
+const getMousePos = (canvas, evt) => {
+	var rect = canvas.getBoundingClientRect();
+	return {
+	  x:
+		((evt.clientX - rect.left) / (rect.right - rect.left)) *
+		canvas.width,
+	  y:
+		((evt.clientY - rect.top) / (rect.bottom - rect.top)) *
+		canvas.height,
+	};
+}
+
+window.addEventListener("mousemove", drawCanvas, false);
