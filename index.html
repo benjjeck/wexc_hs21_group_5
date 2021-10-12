@@ -1,32 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<body>
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Canvas Skeleton Jonas</title>
-	<script type="text/javascript">
-		function draw() {
-			var canvas = document.getElementById('tutorial');
-			var slider = document.getElementById('scaleSlider');
-			if (canvas.getContext) {
-				var ctx = canvas.getContext('2d');
-			}
-		}
-	</script>
-	<style type="text/css">
-		canvas {
-			border: 1px solid black;
-		}
-	</style>
-</head>
+	<title>Canvas Jonas</title>
+	<!-- <script type="text/javascript">
+        function draw() {
+         var canvas = document.getElementById('tutorial');
+         var slider = document.getElementById('scaleSlider');
+         if (canvas.getContext) {
+             var ctx = canvas.getContext('2d');
+         }
+     }
+</script> -->
 
+	<canvas id="myCanvas" width="1000" height="300" style="border:1px solid #d3d3d3;">
+		Your browser does not support the HTML5 canvas tag.
+		<script>
+			var c = document.getElementById("myCanvas");
+			var ctx = c.getContext("2d");
+
+			//upper Rect
+			ctx.beginPath();
+			ctx.fillStyle = "#909090";
+			ctx.fillRect(5, 0, 1000, 80);
+			ctx.stroke();
+
+			//bottom Rect
+			ctx.beginPath();
+			ctx.fillStyle = "#909090";
+			ctx.fillRect(5, 220,  1000, 80);
+			ctx.stroke();
+
+			// Middle Rect for time
+			ctx.beginPath();
+			ctx.lineWidth = "3";
+			ctx.fillStyle = "#C4C4C4";
+			ctx.fillRect(5, 80, 1000, 140);
+			ctx.stroke();
+
+			//left Pane for time
+			ctx.beginPath();
+			ctx.lineWidth = "3";
+			ctx.fillStyle = "#565656";
+			ctx.fillRect(0,0, 30, 300);
+			ctx.stroke();
+
+			//lines for time pane
+			ctx.beginPath();
+			ctx.lineWidth = "2";
+			ctx.strokeStyle = '#C4C2DB';
+			ctx.moveTo(0, 80);
+			ctx.lineTo(30, 80);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.lineWidth = "2";
+			ctx.strokeStyle = '#C4C2DB';
+			ctx.moveTo(0, 150);
+			ctx.lineTo(30, 150);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.lineWidth = "2";
+			ctx.strokeStyle = '#C4C2DB';
+			ctx.moveTo(0, 220);
+			ctx.lineTo(30, 220);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.lineWidth = "2";
+			ctx.strokeStyle = '#C4C2DB';
+			ctx.moveTo(0, 260);
+			ctx.lineTo(30, 260);
+			ctx.stroke();
+
+			//marked time 4h in left time pane
+			ctx.beginPath();
+			ctx.lineWidth = "6";
+			ctx.strokeStyle = '#8A80FF';
+			ctx.moveTo(0, 40);
+			ctx.lineTo(30, 40);
+			ctx.stroke();
+
+			//strokes in middle rect for time
+			ctx.beginPath();
+			ctx.lineWidth = "2";
+			ctx.strokeStyle = '#5A5A5A';
+			ctx.moveTo(50, 120);
+			ctx.lineTo(50, 180);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.lineWidth = "2";
+			ctx.strokeStyle = '#5A5A5A';
+			ctx.moveTo(150, 120);
+			ctx.lineTo(150, 180);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.lineWidth = "2";
+			ctx.strokeStyle = '#5A5A5A';
+			ctx.moveTo(250, 120);
+			ctx.lineTo(250, 180);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.lineWidth = "2";
+			ctx.strokeStyle = '#5A5A5A';
+			ctx.moveTo(350, 120);
+			ctx.lineTo(350, 180);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.lineWidth = "2";
+			ctx.strokeStyle = '#5A5A5A';
+			ctx.moveTo(450, 120);
+			ctx.lineTo(450, 180);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.lineWidth = "2";
+			ctx.strokeStyle = '#5A5A5A';
+			ctx.moveTo(550, 120);
+			ctx.lineTo(550, 180);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.lineWidth = "2";
+			ctx.strokeStyle = '#5A5A5A';
+			ctx.moveTo(650, 120);
+			ctx.lineTo(650, 180);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.lineWidth = "2";
+			ctx.strokeStyle = '#5A5A5A';
+			ctx.moveTo(750, 120);
+			ctx.lineTo(750, 180);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.lineWidth = "2";
+			ctx.strokeStyle = '#5A5A5A';
+			ctx.moveTo(850, 120);
+			ctx.lineTo(850, 180);
+			ctx.stroke();
+
+			ctx.beginPath();
+			ctx.lineWidth = "2";
+			ctx.strokeStyle = '#5A5A5A';
+			ctx.moveTo(950, 120);
+			ctx.lineTo(950, 180);
+			ctx.stroke();
+
+
+		</script>
+	</canvas>
+</head>
 <body onload="draw();">
-	<canvas id="canvas" width="600" height="200"></canvas>
-	<div class="slidecontainer">
-		<input type="range" min="1" max="4" value="2" class="slider" id="scaleSlider">
-	</div>
+<canvas id="canvas" width="600" height="200"></canvas>
+<div class="slidecontainer">
+	<input type="range" min="1" max="4" value="2" class="slider" id="scaleSlider">
+</div>
+
+
 </body>
 
+
+
+</body>
 </html>
