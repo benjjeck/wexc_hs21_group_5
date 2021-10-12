@@ -16,8 +16,7 @@
      }
 </script> -->
 
-	<canvas id="myCanvas" width="1000" height="300" style="border:1px solid #d3d3d3;">
-		Your browser does not support the HTML5 canvas tag.
+	<canvas id="myCanvas" width="1080" height="300" style="border:1px solid #d3d3d3;">
 		<script>
 			var c = document.getElementById("myCanvas");
 			var ctx = c.getContext("2d");
@@ -27,77 +26,70 @@
 				var pos = getMousePos(myCanvas, e);
 				console.log(pos);
 
-//upper Rect
+			//upper Rect
 				ctx.beginPath();
 				ctx.fillStyle = "#909090";
-				ctx.fillRect(5, 0, 1000, 80);
+				ctx.fillRect(80, 0, 1000, 80);
 				ctx.stroke();
 
 //bottom Rect
 				ctx.beginPath();
 				ctx.fillStyle = "#909090";
-				ctx.fillRect(5, 220,  1000, 80);
+				ctx.fillRect(80, 220,  1000, 80);
 				ctx.stroke();
 
 // Middle Rect for time
 				ctx.beginPath();
 				ctx.lineWidth = "3";
 				ctx.fillStyle = "#C4C4C4";
-				ctx.fillRect(5, 80, 1000, 140);
+				ctx.fillRect(80, 80, 1000, 140);
 				ctx.stroke();
 
 //left Pane for time
 				ctx.beginPath();
 				ctx.lineWidth = "3";
 				ctx.fillStyle = "#565656";
-				ctx.fillRect(0,0, 30, 300);
+				ctx.fillRect(80,0, 30, 300);
 				ctx.stroke();
 
 //lines for time pane
 				ctx.beginPath();
 				ctx.lineWidth = "2";
 				ctx.strokeStyle = '#C4C2DB';
-				ctx.moveTo(0, 80);
-				ctx.lineTo(30, 80);
+				ctx.moveTo(80, 80);
+				ctx.lineTo(110, 80);
 				ctx.stroke();
 
 				ctx.beginPath();
 				ctx.lineWidth = "2";
 				ctx.strokeStyle = '#C4C2DB';
-				ctx.moveTo(0, 150);
-				ctx.lineTo(30, 150);
+				ctx.moveTo(80, 150);
+				ctx.lineTo(110, 150);
 				ctx.stroke();
 
 				ctx.beginPath();
 				ctx.lineWidth = "2";
 				ctx.strokeStyle = '#C4C2DB';
-				ctx.moveTo(0, 220);
-				ctx.lineTo(30, 220);
+				ctx.moveTo(80, 220);
+				ctx.lineTo(110, 220);
 				ctx.stroke();
 
 				ctx.beginPath();
 				ctx.lineWidth = "2";
 				ctx.strokeStyle = '#C4C2DB';
-				ctx.moveTo(0, 260);
-				ctx.lineTo(30, 260);
+				ctx.moveTo(80, 270);
+				ctx.lineTo(110, 270);
 				ctx.stroke();
 
 //marked time 4h in left time pane
 				ctx.beginPath();
-				ctx.lineWidth = "6";
+				ctx.lineWidth = "8";
 				ctx.strokeStyle = '#8A80FF';
-				ctx.moveTo(0, 40);
-				ctx.lineTo(30, 40);
+				ctx.moveTo(80, 40);
+				ctx.lineTo(110, 40);
 				ctx.stroke();
 
 //strokes in middle rect for time
-				ctx.beginPath();
-				ctx.lineWidth = "2";
-				ctx.strokeStyle = '#5A5A5A';
-				ctx.moveTo(50, 120);
-				ctx.lineTo(50, 180);
-				ctx.stroke();
-
 				ctx.beginPath();
 				ctx.lineWidth = "2";
 				ctx.strokeStyle = '#5A5A5A';
@@ -160,6 +152,51 @@
 				ctx.moveTo(950, 120);
 				ctx.lineTo(950, 180);
 				ctx.stroke();
+
+				ctx.beginPath();
+				ctx.lineWidth = "2";
+				ctx.strokeStyle = '#5A5A5A';
+				ctx.moveTo(1050, 120);
+				ctx.lineTo(1050, 180);
+				ctx.stroke();
+
+				//timestamps
+				ctx.font = '22px Sans-Serif';
+				ctx.textAlign= 'start';
+				ctx.fontWeight= '50';
+
+				ctx.fillText('2h', 45, 90);
+				ctx.fillText('1h', 45, 155);
+				ctx.fillText('30min', 15, 225);
+				ctx.fillText('15min', 15, 280);
+
+				//marked timestamp
+				ctx.fillStyle = '#8A80FF';
+				ctx.fillRect(30,22, 40, 30);
+				ctx.fillStyle = 'white';
+				ctx.fillText('4h', 40, 45);
+
+
+//draw stroke for start time
+				ctx.beginPath();
+				ctx.lineWidth = "5";
+				ctx.strokeStyle = '#780060';
+				ctx.moveTo(220, 110);
+				ctx.lineTo(220, 190);
+				ctx.stroke();
+
+				//draw stroke for end time
+				ctx.beginPath();
+				ctx.lineWidth = "5";
+				ctx.strokeStyle = '#780060';
+				ctx.moveTo(880, 110);
+				ctx.lineTo(880, 190);
+				ctx.stroke();
+
+//draw time reservation rect
+				ctx.stroke();
+				ctx.fillStyle = "rgba(214, 116, 192, 0.5)";
+				ctx.fillRect(223,110, 655, 80);
 
 				//draw stroke when click with mouse position
 				//
