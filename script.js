@@ -89,64 +89,64 @@ const drawBackground = () => {
 	//upper Rect
 	ctx.beginPath();
 	ctx.fillStyle = "#909090";
-	ctx.fillRect(80, 0, 1000, 80);
+	ctx.fillRect(80, 0, 1000, canvas.height * 0.25);
 	ctx.stroke();
 
 	//bottom Rect
 	ctx.beginPath();
 	ctx.fillStyle = "#909090";
-	ctx.fillRect(80, 220, 1000, 80);
+	ctx.fillRect(80, (canvas.height * 0.75), 1000, canvas.height * 0.25);
 	ctx.stroke();
 
 	// Middle Rect for time
 	ctx.beginPath();
 	ctx.lineWidth = "3";
 	ctx.fillStyle = "#C4C4C4";
-	ctx.fillRect(80, 80, 1000, 140);
+	ctx.fillRect(80, canvas.height * 0.25, 1000, canvas.height * 0.5);
 	ctx.stroke();
 
 	//left Pane for time
 	ctx.beginPath();
 	ctx.lineWidth = "3";
 	ctx.fillStyle = "#565656";
-	ctx.fillRect(80, 0, 30, 300);
+	ctx.fillRect(80, 0, 30, canvas.height);
 	ctx.stroke();
 
 	//lines for time pane
 	ctx.beginPath();
 	ctx.lineWidth = "2";
 	ctx.strokeStyle = "#C4C2DB";
-	ctx.moveTo(80, 80);
-	ctx.lineTo(110, 80);
+	ctx.moveTo(80, canvas.height * 0.25);
+	ctx.lineTo(110, canvas.height * 0.25);
 	ctx.stroke();
 
 	ctx.beginPath();
 	ctx.lineWidth = "2";
 	ctx.strokeStyle = "#C4C2DB";
-	ctx.moveTo(80, 150);
-	ctx.lineTo(110, 150);
+	ctx.moveTo(80, canvas.height * 0.5);
+	ctx.lineTo(110, canvas.height * 0.5);
 	ctx.stroke();
 
 	ctx.beginPath();
 	ctx.lineWidth = "2";
 	ctx.strokeStyle = "#C4C2DB";
-	ctx.moveTo(80, 220);
-	ctx.lineTo(110, 220);
+	ctx.moveTo(80, canvas.height * 0.75);
+	ctx.lineTo(110, canvas.height * 0.75);
 	ctx.stroke();
 
 	ctx.beginPath();
 	ctx.lineWidth = "2";
 	ctx.strokeStyle = "#C4C2DB";
-	ctx.moveTo(80, 270);
-	ctx.lineTo(110, 270);
+	ctx.moveTo(80, canvas.height * 0.875);
+	ctx.lineTo(110, canvas.height * 0.875);
 	ctx.stroke();
 
 	//marked time 4h in left time pane
 	ctx.beginPath();
 	ctx.lineWidth = "8";
 	ctx.strokeStyle = "#8A80FF";
-	ctx.moveTo(80, 40);
-	ctx.lineTo(110, 40);
+	ctx.moveTo(80, canvas.height * 0.125);
+	ctx.lineTo(110, canvas.height * 0.125);
 	ctx.stroke();
 
 	//timestamps
