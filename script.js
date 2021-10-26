@@ -70,7 +70,6 @@ const drawLabel = (label, x, y) => {
 	ctx.fillStyle = 'black';
 	ctx.fillRect(x - 22, y - 14, 42, 18);
 
-
 	ctx.fillStyle = 'white';
 	ctx.font = '14px sans-serif'
 	ctx.fillText(label, x - 19, y);
@@ -189,10 +188,6 @@ const drawBackground = () => {
 	// rectangles
 	const rectHeight = canvas.height / 4;
 
-
-	//rgba(255,165,0,1)
-	//ctx.fillRect(0, 0, canvas.width, canvas.height);
-
 	const activeY = currentIntervalIdx * rectHeight;
 	ctx.fillStyle = "rgb(132,184,217,0.3)";
 	ctx.fillRect(110, activeY, canvas.width, rectHeight);
@@ -203,14 +198,7 @@ const drawBackground = () => {
 
 	ctx.beginPath();
 
-	/*
-	for (let i = 1; i < 4; i++) {
-		const y = i * rectHeight;
-		ctx.moveTo(0, y);
-		ctx.lineTo(canvas.width, y);
-	}*/
 	ctx.stroke();
-
 }
 
 const getMousePos = (canvas, evt) => {
