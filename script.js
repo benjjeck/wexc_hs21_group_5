@@ -17,7 +17,6 @@ const draw = () => {
 	}
 }
 
-
 const drawCanvas = (e) => {
 	if(e){
 		var pos = getMousePos(canvas, e);
@@ -41,7 +40,7 @@ const drawCanvas = (e) => {
 	const dist = canvas.width / (numOfLines + 1);
 	for (let i = 0; i < numOfLines; i++) {
 
-		const xPos = dist + (i * dist);
+		const xPos = dist + (i * dist)+60;
 		const label = formatTimeString(currTime);
 
 		drawLineWithLabel(xPos, label);
@@ -51,7 +50,7 @@ const drawCanvas = (e) => {
 }
 
 const drawLineWithLabel = (x, label) => {
-	const y = 20;
+	const y = 40;
 
 	ctx.strokeStyle = 'black';
 	ctx.lineWidth = 2;
@@ -86,16 +85,117 @@ const formatTimeString = date => {
 const drawBackground = () => {
 	// clear canvas
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+	//upper Rect
+	ctx.beginPath();
+	ctx.fillStyle = "#909090";
+	ctx.fillRect(80, 0, 1000, 80);
+	ctx.stroke();
+
+	//bottom Rect
+	ctx.beginPath();
+	ctx.fillStyle = "#909090";
+	ctx.fillRect(80, 220, 1000, 80);
+	ctx.stroke();
+
+	// Middle Rect for time
+	ctx.beginPath();
+	ctx.lineWidth = "3";
+	ctx.fillStyle = "#C4C4C4";
+	ctx.fillRect(80, 80, 1000, 140);
+	ctx.stroke();
+
+	//left Pane for time
+	ctx.beginPath();
+	ctx.lineWidth = "3";
+	ctx.fillStyle = "#565656";
+	ctx.fillRect(80, 0, 30, 300);
+	ctx.stroke();
+
+	//lines for time pane
+	ctx.beginPath();
+	ctx.lineWidth = "2";
+	ctx.strokeStyle = "#C4C2DB";
+	ctx.moveTo(80, 80);
+	ctx.lineTo(110, 80);
+	ctx.stroke();
+
+	ctx.beginPath();
+	ctx.lineWidth = "2";
+	ctx.strokeStyle = "#C4C2DB";
+	ctx.moveTo(80, 150);
+	ctx.lineTo(110, 150);
+	ctx.stroke();
+
+	ctx.beginPath();
+	ctx.lineWidth = "2";
+	ctx.strokeStyle = "#C4C2DB";
+	ctx.moveTo(80, 220);
+	ctx.lineTo(110, 220);
+	ctx.stroke();
+
+	ctx.beginPath();
+	ctx.lineWidth = "2";
+	ctx.strokeStyle = "#C4C2DB";
+	ctx.moveTo(80, 270);
+	ctx.lineTo(110, 270);
+	ctx.stroke();
+
+	//marked time 4h in left time pane
+	ctx.beginPath();
+	ctx.lineWidth = "8";
+	ctx.strokeStyle = "#8A80FF";
+	ctx.moveTo(80, 40);
+	ctx.lineTo(110, 40);
+	ctx.stroke();
+
+	//timestamps
+	ctx.font = "22px Sans-Serif";
+	ctx.textAlign = "start";
+	ctx.fontWeight = "50";
+
+	ctx.fillText("2h", 45, 90);
+	ctx.fillText("1h", 45, 155);
+	ctx.fillText("30min", 15, 225);
+	ctx.fillText("15min", 15, 280);
+
+	//marked timestamp
+	ctx.fillStyle = "#8A80FF";
+	ctx.fillRect(32, 22, 40, 30);
+	ctx.fillStyle = "white";
+	ctx.fillText("4h", 40, 45);
+
+	//draw stroke for start time
+	ctx.beginPath();
+	ctx.lineWidth = "5";
+	ctx.strokeStyle = "#780060";
+	ctx.moveTo(220, 110);
+	ctx.lineTo(220, 190);
+	ctx.stroke();
+
+	//draw stroke for end time
+	ctx.beginPath();
+	ctx.lineWidth = "5";
+	ctx.strokeStyle = "#780060";
+	ctx.moveTo(880, 110);
+	ctx.lineTo(880, 190);
+	ctx.stroke();
+
+	//draw time reservation rect
+	ctx.stroke();
+	ctx.fillStyle = "rgba(214, 116, 192, 0.5)";
+	ctx.fillRect(223, 110, 655, 80);
 	
 	// rectangles
 	const rectHeight = canvas.height / 4;
 
-	ctx.fillStyle = '#84B8D9';
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+	//rgba(255,165,0,1)
+	//ctx.fillRect(0, 0, canvas.width, canvas.height);
 
 	const activeY = currentIntervalIdx * rectHeight;
-	ctx.fillStyle = '#369AD9';
-	ctx.fillRect(0, activeY, canvas.width, rectHeight);
+	ctx.fillStyle = "rgb(132,184,217,0.3)";
+	ctx.fillRect(110, activeY, canvas.width, rectHeight);
 
 	// borders
 	ctx.strokeStyle = '#1D598F';
@@ -103,12 +203,12 @@ const drawBackground = () => {
 
 	ctx.beginPath();
 
+	/*
 	for (let i = 1; i < 4; i++) {
 		const y = i * rectHeight;
 		ctx.moveTo(0, y);
 		ctx.lineTo(canvas.width, y);
-	}
-
+	}*/
 	ctx.stroke();
 
 }
