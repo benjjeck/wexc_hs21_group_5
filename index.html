@@ -127,29 +127,13 @@
 				ctx.fillStyle = "rgba(214, 116, 192, 0.5)";
 				ctx.fillRect(223,110, 655, 80);
 			}
-
-			//Shoutout an Fabio
-			function getMousePos(myCanvas, evt) {
-				var rect = canvas.getBoundingClientRect();
-				return {
-					x:
-							((evt.clientX - rect.left) / (rect.right - rect.left)) *
-							canvas.width,
-					y:
-							((evt.clientY - rect.top) / (rect.bottom - rect.top)) *
-							canvas.height,
-				};
-			}
-			window.addEventListener("mousemove", draw, false);
-
 		</script>
 	</canvas>
 </head>
 <body onload="draw();">
-<canvas id="canvas" width="600" height="200"></canvas>
-<div class="slidecontainer">
-	<input type="range" min="1" max="4" value="2" class="slider" id="scaleSlider">
-</div>
+  <script src="./script.js"></script>
+
+	<canvas id="canvas" width="800" height="200"></canvas>
 </body>
 </body>
 </html>
