@@ -1,32 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Canvas Skeleton</title>
-	<script type="text/javascript">
-		function draw() {
-			var canvas = document.getElementById('tutorial');
-			var slider = document.getElementById('scaleSlider');
-			if (canvas.getContext) {
-				var ctx = canvas.getContext('2d');
-			}
-		}
-	</script>
-	<style type="text/css">
-		canvas {
-			border: 1px solid black;
-		}
-	</style>
-</head>
-
-<body onload="draw();">
-	<canvas id="canvas" width="600" height="200"></canvas>
-	<div class="slidecontainer">
-		<input type="range" min="1" max="4" value="2" class="slider" id="scaleSlider">
-	</div>
-</body>
-
+  <body>
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Canvas Playground Jonas</title>
+    </head>
+    <body onload="draw();">
+      <script src="./script.js"></script>
+      <canvas id="canvas" width="1080" height="300"></canvas>
+    </body>
+  </body>
 </html>
