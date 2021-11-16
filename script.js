@@ -187,6 +187,16 @@ const drawBackground = () => {
 	ctx.fillStyle = "rgb(132,184,217,0.3)";
 	ctx.fillRect(110, activeY, canvas.width, rectHeight);
 
+	//labels underneath start and endpoint
+	ctx.fillStyle = "#343434";
+	ctx.fillRect(200,195,40,25);
+	ctx.fillRect(855,195,40,25);
+
+	ctx.fillStyle = "#FFFFFF";
+	ctx.font = '16px sans-serif'
+	ctx.fillText("9:30", 205, 213);
+	ctx.fillText("11:40", 855, 213);
+
 	// borders
 	ctx.strokeStyle = '#1D598F';
 	ctx.lineWidth = 1;
