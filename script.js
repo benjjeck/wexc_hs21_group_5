@@ -183,9 +183,12 @@ const drawBackground = () => {
 	ctx.strokeRect(80,rectHeight*3,30,rectHeight)
 
 	//show active rect from position of mouse
+	/*
 	const activeY = currentIntervalIdx * rectHeight;
 	ctx.fillStyle = "rgb(132,184,217,0.3)";
 	ctx.fillRect(110, activeY, canvas.width, rectHeight);
+	*/
+
 
 	//labels underneath start and endpoint
 	ctx.fillStyle = "#343434";
