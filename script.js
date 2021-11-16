@@ -5,6 +5,8 @@ const numOfLines = 10;
 let interval, canvas, ctx;
 let currentIntervalIdx = 1;
 
+let frames = 0;
+
 const draw = () => {
 	console.log('draw called')
 
@@ -15,9 +17,13 @@ const draw = () => {
 		
 		drawCanvas();
 	}
+
+	setInterval(drawCanvas, 1000 / 60);
 }
 
 const drawCanvas = (e) => {
+	frames++;
+
 	if(e){
 		var pos = getMousePos(canvas, e);
 		const rectHeight = canvas.height / 4;
@@ -213,4 +219,4 @@ const getMousePos = (canvas, evt) => {
 	};
 }
 
-window.addEventListener("mousemove", drawCanvas, false);
+const addToolTip = (x, y, text) => {
