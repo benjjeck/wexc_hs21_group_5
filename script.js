@@ -24,15 +24,16 @@ const drawCanvas = () => {
 
   let currTime = new Date(startTime.toString());
   const dist = canvas.width / (numOfLines + 1);
+
   for (let i = 0; i < numOfLines; i++) {
-    const xPos = dist + i * dist + 60;
+    const xPos = dist + i * dist + 10;
     const label = formatTimeString(currTime);
 
-    drawLineWithLabel(xPos, label);
-    drawVerticalLine();
+    if (i > 0) drawLineWithLabel(xPos, label);
 
     currTime.setMinutes(currTime.getMinutes() + interval);
   }
+  drawIndicationLine();
   drawTimespan();
 };
 
@@ -73,7 +74,7 @@ const drawTimespan = () => {
   }
 };
 
-const drawVerticalLine = () => {
+const drawIndicationLine = () => {
   ctx.setLineDash([5, 3]); /*dashes are 5px and spaces are 3px*/
   ctx.beginPath();
   ctx.moveTo(currentXPos, 0);
@@ -196,13 +197,6 @@ const drawBackground = () => {
   ctx.strokeRect(80, rectHeight + thirdRects * 2, 30, thirdRects);
   ctx.strokeRect(80, rectHeight * 3, 30, rectHeight);
 
-  //show active rect from position of mouse
-  /*
-	const activeY = currentIntervalIdx * rectHeight;
-	ctx.fillStyle = "rgb(132,184,217,0.3)";
-	ctx.fillRect(110, activeY, canvas.width, rectHeight);
-	*/
-
   // borders
   ctx.strokeStyle = "#1D598F";
   ctx.lineWidth = 1;
@@ -245,16 +239,24 @@ const handleClick = (e) => {
     var pos = getMousePos(canvas, e);
 
     if (!start) {
-      start = { pos: pos.x, time: calculateTime() };
+      start = { pos: pos.x, time: calculateTime(pos.x) };
     } else {
-      end = { pos: pos.x, time: calculateTime() };
+      end = { pos: pos.x, time: calculateTime(pos.x) };
     }
   }
   drawCanvas();
 };
 
-const calculateTime = () => {
-  return "9:30";
+const calculateTime = (x) => {
+  const leftMargin = 110;
+  const totalMins = intervals[currentIntervalIdx] * 10;
+  const totalWidth = 1080 - leftMargin;
+
+  const pixelsFromStart = x - leftMargin;
+  const mins = (totalMins / totalWidth) * pixelsFromStart;
+
+  const time = ((480 + mins) / 60).toFixed(1);
+  return time.toString();
 };
 
 window.addEventListener("mousemove", handleMouseMove, false);
