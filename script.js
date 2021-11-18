@@ -102,10 +102,10 @@ const drawLabel = (label, x, y) => {
 
   // rectangle
   ctx.fillStyle = "#DCDCDC";
-  ctx.fillRect(x - 22, y - 14, 42, 18);
+  roundRect(x - 22, y - 14, 42, 18,5,true,false);
 
   ctx.fillStyle = "#606060";
-  ctx.font = "14px sans-serif";
+  ctx.font = "15px sans-serif";
   ctx.fillText(label, x - 19, y);
 };
 
@@ -120,7 +120,6 @@ const formatTimeString = (date) => {
 };
 
 const drawBackground = () => {
-
 
   // rectangles
   const rectHeight = canvas.height / 5;
@@ -138,9 +137,8 @@ const drawBackground = () => {
 
   //left Pane for time
   ctx.beginPath();
-  ctx.lineWidth = "3";
+  ctx.lineWidth = "2";
   ctx.fillStyle = "#BFEDF6";
-  //roundRect(80, 0, 30, canvas.height,10,true,false);
   ctx.stroke();
   ctx.fillStyle = "#565656";
 
@@ -167,9 +165,9 @@ const drawBackground = () => {
 
   //marked timestamp
   ctx.fillStyle = "#BE3527";
-  roundRect(22, 22, 50, 30,8,true,false);
+  roundRect(22, 17, 50, 30,8,true,false);
   ctx.fillStyle = "white";
-  ctx.fillText("4h", 35, 45);
+  ctx.fillText("4h", 35, 40);
 
   //marked timebox + rectBorder
   ctx.fillStyle = "#BE3429";
@@ -180,7 +178,7 @@ const drawBackground = () => {
 
   ctx.fillStyle = "#BFEDF6";
   ctx.strokeStyle = "#767676";
-  ctx.lineWidth = 2;
+  ctx.lineWidth = "2";
   roundRect(80, rectHeight, 30, rectHeight,5,true,true);
   roundRect(80, rectHeight*2, 30, rectHeight,5,true,true);
   roundRect(80, rectHeight*3, 30, rectHeight,5,true,true);
@@ -189,9 +187,7 @@ const drawBackground = () => {
   // borders
   ctx.strokeStyle = "#1D598F";
   ctx.lineWidth = 1;
-
   ctx.beginPath();
-
   ctx.stroke();
 };
 
