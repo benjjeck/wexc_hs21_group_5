@@ -131,14 +131,16 @@ const drawBackground = () => {
   //backgroundRect
   ctx.beginPath();
   ctx.fillStyle = "#CFF0C2";
-  roundRect(80, 0, 1000, canvas.height,20,true,false);
+  ctx.strokeStyle = "#767676"
+  ctx.lineWidth = "4";
+  roundRect(85, 0, 995, canvas.height,20,true,true);
   ctx.stroke();
 
   //left Pane for time
   ctx.beginPath();
   ctx.lineWidth = "3";
   ctx.fillStyle = "#BFEDF6";
-  roundRect(80, 0, 30, canvas.height,8,true,false);
+  //roundRect(80, 0, 30, canvas.height,10,true,false);
   ctx.stroke();
   ctx.fillStyle = "#565656";
 
@@ -171,17 +173,18 @@ const drawBackground = () => {
 
   //marked timebox + rectBorder
   ctx.fillStyle = "#BE3429";
-  ctx.fillRect(80, 0, 30, rectHeight);
+  roundRect(80, 1, 30, rectHeight-1,8,true,true);
   ctx.lineWidth = "2";
   ctx.strokeStyle = "#BE3429";
-  ctx.strokeRect(80, 0, 30, rectHeight);
+  roundRect(80, 0, 30, rectHeight,8,false,false);
 
-  ctx.strokeStyle = "#ABABAB";
+  ctx.fillStyle = "#BFEDF6";
+  ctx.strokeStyle = "#767676";
   ctx.lineWidth = 2;
-  ctx.strokeRect(80, rectHeight, 30, rectHeight);
-  ctx.strokeRect(80, rectHeight*2, 30, rectHeight);
-  ctx.strokeRect(80, rectHeight*3, 30, rectHeight);
-  ctx.strokeRect(80, rectHeight * 4, 30, rectHeight);
+  roundRect(80, rectHeight, 30, rectHeight,5,true,true);
+  roundRect(80, rectHeight*2, 30, rectHeight,5,true,true);
+  roundRect(80, rectHeight*3, 30, rectHeight,5,true,true);
+  roundRect(80, rectHeight*4-1, 30, rectHeight,5,true,true);
 
   // borders
   ctx.strokeStyle = "#1D598F";
