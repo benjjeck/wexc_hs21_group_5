@@ -86,8 +86,8 @@ const drawIndicationLine = () => {
 const drawLineWithLabel = (x, label) => {
   const y = 40;
 
-  ctx.strokeStyle = "black";
-  ctx.lineWidth = 0.6;
+  ctx.strokeStyle = "#1D1D1D";
+  ctx.lineWidth = 1.5;
 
   ctx.beginPath();
   ctx.moveTo(x, y);
@@ -101,10 +101,10 @@ const drawLabel = (label, x, y) => {
   y += 10;
 
   // rectangle
-  ctx.fillStyle = "#DCDCDC";
+  ctx.fillStyle = "#FFFFFF";
   roundRect(x - 22, y - 14, 42, 18,5,true,false);
 
-  ctx.fillStyle = "#606060";
+  ctx.fillStyle = "#1D1D1D";
   ctx.font = "15px sans-serif";
   ctx.fillText(label, x - 19, y);
 };
@@ -129,7 +129,7 @@ const drawBackground = () => {
 
   //backgroundRect
   ctx.beginPath();
-  ctx.fillStyle = "#CFF0C2";
+  ctx.fillStyle = "#595959";
   ctx.strokeStyle = "#767676"
   ctx.lineWidth = "4";
   roundRect(85, 0, 995, canvas.height,20,true,true);
@@ -173,11 +173,11 @@ const drawBackground = () => {
   ctx.fillStyle = "#BE3429";
   roundRect(80, 1, 30, rectHeight-1,8,true,true);
   ctx.lineWidth = "2";
-  ctx.strokeStyle = "#BE3429";
-  roundRect(80, 0, 30, rectHeight,8,false,false);
+  ctx.strokeStyle = "#000000";
+  roundRect(80, 0, 30, rectHeight,8,false,true);
 
-  ctx.fillStyle = "#BFEDF6";
-  ctx.strokeStyle = "#767676";
+  ctx.fillStyle = "#1E44A5";
+  ctx.strokeStyle = "#000000";
   ctx.lineWidth = "2";
   roundRect(80, rectHeight, 30, rectHeight,5,true,true);
   roundRect(80, rectHeight*2, 30, rectHeight,5,true,true);
