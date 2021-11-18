@@ -148,26 +148,26 @@ const drawBackground = () => {
   ctx.fontWeight = "50";
 
   ctx.fillStyle = "#E0E0E0";
-  roundRect(22, 87, 50, 30,8,true,false);
+  roundRect(22, 75, 50, 30,8,true,false);
   roundRect(22, 136, 50, 30,8,true,false);
-  roundRect(22, 187, 50, 30,8,true,false);
-  roundRect(22, 247, 50, 30,8,true,false);
+  roundRect(22, 195, 50, 30,8,true,false);
+  roundRect(22, 254, 50, 30,8,true,false);
 
   ctx.font = "22px Sans-Serif";
   ctx.textAlign = "start";
   ctx.fontWeight = "50";
   ctx.fillStyle = "#565656";
 
-  ctx.fillText("2h", 35, 110);
+  ctx.fillText("2h", 35, 98);
   ctx.fillText("1h", 35, 160);
-  ctx.fillText("30m", 25, 210);
-  ctx.fillText("15m", 25, 270);
+  ctx.fillText("30m", 25, 218);
+  ctx.fillText("15m", 25, 277);
 
   //marked timestamp
   ctx.fillStyle = "#BE3527";
-  roundRect(22, 17, 50, 30,8,true,false);
+  roundRect(22, 16, 50, 30,8,true,false);
   ctx.fillStyle = "white";
-  ctx.fillText("4h", 35, 40);
+  ctx.fillText("4h", 35, 39);
 
   //marked timebox + rectBorder
   ctx.fillStyle = "#BE3429";
