@@ -1,4 +1,4 @@
-const intervals = [120, 60, 30, 15];
+const intervals = [240, 120, 60, 30, 15];
 const startTime = new Date("2021-10-10T08:00:00");
 const numOfLines = 10;
 
@@ -102,7 +102,7 @@ const drawLabel = (label, x, y) => {
 
   // rectangle
   ctx.fillStyle = "#FFFFFF";
-  roundRect(x - 22, y - 14, 42, 18,5,true,false);
+  roundRect(x - 22, y - 14, 42, 18, 5, true, false);
 
   ctx.fillStyle = "#1D1D1D";
   ctx.font = "15px sans-serif";
@@ -120,7 +120,6 @@ const formatTimeString = (date) => {
 };
 
 const drawBackground = () => {
-
   // rectangles
   const rectHeight = canvas.height / 5;
 
@@ -130,9 +129,9 @@ const drawBackground = () => {
   //backgroundRect
   ctx.beginPath();
   ctx.fillStyle = "#595959";
-  ctx.strokeStyle = "#767676"
+  ctx.strokeStyle = "#767676";
   ctx.lineWidth = "4";
-  roundRect(85, 0, 995, canvas.height,20,true,true);
+  roundRect(85, 0, 995, canvas.height, 20, true, true);
   ctx.stroke();
 
   //left Pane for time
@@ -147,42 +146,7 @@ const drawBackground = () => {
   ctx.textAlign = "start";
   ctx.fontWeight = "50";
 
-  ctx.fillStyle = "#E0E0E0";
-  roundRect(22, 75, 50, 30,8,true,false);
-  roundRect(22, 136, 50, 30,8,true,false);
-  roundRect(22, 195, 50, 30,8,true,false);
-  roundRect(22, 254, 50, 30,8,true,false);
-
-  ctx.font = "22px Sans-Serif";
-  ctx.textAlign = "start";
-  ctx.fontWeight = "50";
-  ctx.fillStyle = "#565656";
-
-  ctx.fillText("2h", 35, 98);
-  ctx.fillText("1h", 35, 160);
-  ctx.fillText("30m", 25, 218);
-  ctx.fillText("15m", 25, 277);
-
-  //marked timestamp
-  ctx.fillStyle = "#BE3527";
-  roundRect(22, 16, 50, 30,8,true,false);
-  ctx.fillStyle = "white";
-  ctx.fillText("4h", 35, 39);
-
-  //marked timebox + rectBorder
-  ctx.fillStyle = "#BE3429";
-  roundRect(80, 1, 30, rectHeight-1,8,true,true);
-  ctx.lineWidth = "2";
-  ctx.strokeStyle = "#000000";
-  roundRect(80, 0, 30, rectHeight,8,false,true);
-
-  ctx.fillStyle = "#1E44A5";
-  ctx.strokeStyle = "#000000";
-  ctx.lineWidth = "2";
-  roundRect(80, rectHeight, 30, rectHeight,5,true,true);
-  roundRect(80, rectHeight*2, 30, rectHeight,5,true,true);
-  roundRect(80, rectHeight*3, 30, rectHeight,5,true,true);
-  roundRect(80, rectHeight*4-1, 30, rectHeight,5,true,true);
+  renderLeftBar();
 
   // borders
   ctx.strokeStyle = "#1D598F";
@@ -190,6 +154,122 @@ const drawBackground = () => {
   ctx.beginPath();
   ctx.stroke();
 };
+
+const getCorrectLabel = (time) => {
+  if (time >= 60) {
+    return `${time / 60}h `;
+  } else {
+    return `${time}m `;
+  }
+};
+
+const renderLeftBar = () => {
+  intervals.forEach((i, index) => {
+    const yCoord = (canvas.height / 5) * index;
+    const yCoordText = 18 + yCoord;
+
+    if (index === currentIntervalIdx) {
+      //time
+      ctx.fillStyle = "#BE3527";
+      roundRect(22, yCoordText, 50, 30, 8, true, false);
+      ctx.fillStyle = "white";
+      ctx.fillText(getCorrectLabel(i), 35, yCoordText + 24);
+
+      //boxindicator
+      ctx.fillStyle = "#BE3429";
+      ctx.strokeStyle = "#000000";
+      ctx.lineWidth = "2";
+      roundRect(80, yCoord, 30, canvas.height / 5, 5, true, true);
+    } else {
+      //time
+      ctx.fillStyle = "#E0E0E0";
+      roundRect(22, yCoordText, 50, 30, 8, true, false);
+      ctx.font = "22px Sans-Serif";
+      ctx.textAlign = "start";
+      ctx.fontWeight = "50";
+      ctx.fillStyle = "#565656";
+      ctx.fillText(getCorrectLabel(i), 35, yCoordText + 24);
+
+      //boxindicator
+      ctx.fillStyle = "#1E44A5";
+      ctx.strokeStyle = "#000000";
+      ctx.lineWidth = "2";
+      roundRect(80, yCoord + 1, 30, canvas.height / 5 - 1, 5, true, true);
+    }
+  });
+};
+
+const getMousePos = (canvas, evt) => {
+  var rect = canvas.getBoundingClientRect();
+  return {
+    x: ((evt.clientX - rect.left) / (rect.right - rect.left)) * canvas.width,
+    y: ((evt.clientY - rect.top) / (rect.bottom - rect.top)) * canvas.height,
+  };
+};
+
+const handleMouseMove = debounce((e) => {
+  if (e) {
+    var pos = getMousePos(canvas, e);
+    //setting horizontal line
+    currentXPos = pos.x;
+
+    //setting current interval
+    const rectHeight = canvas.height / intervals.length;
+
+    for (let i = 1; i < intervals.length + 1; i++) {
+      const currentRangeStart = (i - 1) * rectHeight;
+      const currentRangeEnd = i * rectHeight;
+      if (pos.y > currentRangeStart && pos.y < currentRangeEnd) {
+        currentIntervalIdx = i - 1;
+      }
+    }
+  }
+  drawCanvas();
+}, 5);
+
+const handleClick = (e) => {
+  if (e) {
+    var pos = getMousePos(canvas, e);
+
+    if (!start) {
+      start = { pos: pos.x, time: calculateTime(pos.x) };
+    } else {
+      end = { pos: pos.x, time: calculateTime(pos.x) };
+    }
+  }
+  drawCanvas();
+};
+
+const calculateTime = (x) => {
+  const leftMargin = 110;
+  const totalMins = intervals[currentIntervalIdx] * 10;
+  const totalWidth = 1080 - leftMargin;
+
+  const pixelsFromStart = x - leftMargin;
+  const mins = (totalMins / totalWidth) * pixelsFromStart;
+
+  const time = ((480 + mins) / 60).toFixed(1);
+  return time.toString();
+};
+
+window.addEventListener("mousemove", handleMouseMove, false);
+window.addEventListener("click", handleClick, false);
+
+function debounce(func, wait, immediate) {
+  var timeout;
+  return function () {
+    var context = this,
+      args = arguments;
+    var later = function () {
+      timeout = null;
+      if (!immediate) func.apply(context, args);
+    };
+    var callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) func.apply(context, args);
+  };
+}
 
 // Thanks Juan Mendes
 // https://stackoverflow.com/questions/1255512/how-to-draw-a-rounded-rectangle-using-html-canvas
@@ -232,10 +312,10 @@ const roundRect = (x, y, width, height, radius, fill, stroke) => {
   ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
   ctx.lineTo(x + width, y + height - radius.br);
   ctx.quadraticCurveTo(
-      x + width,
-      y + height,
-      x + width - radius.br,
-      y + height
+    x + width,
+    y + height,
+    x + width - radius.br,
+    y + height
   );
   ctx.lineTo(x + radius.bl, y + height);
   ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
@@ -249,84 +329,3 @@ const roundRect = (x, y, width, height, radius, fill, stroke) => {
     ctx.stroke();
   }
 };
-
-
-const getMousePos = (canvas, evt) => {
-  var rect = canvas.getBoundingClientRect();
-  return {
-    x: ((evt.clientX - rect.left) / (rect.right - rect.left)) * canvas.width,
-    y: ((evt.clientY - rect.top) / (rect.bottom - rect.top)) * canvas.height,
-  };
-};
-
-const handleMouseMove = debounce((e) => {
-  if (e) {
-    var pos = getMousePos(canvas, e);
-    //setting horizontal line
-    currentXPos = pos.x;
-
-    //setting current interval
-    const rectHeight = canvas.height / 4;
-
-    for (let i = 1; i < 5; i++) {
-      const currentRangeStart = (i - 1) * rectHeight;
-      const currentRangeEnd = i * rectHeight;
-      if (pos.y > currentRangeStart && pos.y < currentRangeEnd) {
-        currentIntervalIdx = i - 1;
-      }
-    }
-  }
-  drawCanvas();
-}, 5);
-
-const handleClick = (e) => {
-  if (e) {
-    var pos = getMousePos(canvas, e);
-
-    if (!start) {
-      start = { pos: pos.x, time: calculateTime(pos.x) };
-    } else {
-      end = { pos: pos.x, time: calculateTime(pos.x) };
-    }
-  }
-  drawCanvas();
-};
-
-const calculateTime = (x) => {
-  const leftMargin = 110;
-  const totalMins = intervals[currentIntervalIdx] * 10;
-  const totalWidth = 1080 - leftMargin;
-
-  const pixelsFromStart = x - leftMargin;
-  const mins = (totalMins / totalWidth) * pixelsFromStart;
-
-  const time = ((480 + mins) / 60).toFixed(1);
-  return time.toString();
-};
-
-window.addEventListener("mousemove", handleMouseMove, false);
-window.addEventListener("click", handleClick, false);
-
-const addToolTip = (x, y, text) => {
-
-};
-
-// Returns a function, that, as long as it continues to be invoked, will not
-// be triggered. The function will be called after it stops being called for
-// N milliseconds. If `immediate` is passed, trigger the function on the
-// leading edge, instead of the trailing.
-function debounce(func, wait, immediate) {
-  var timeout;
-  return function () {
-    var context = this,
-      args = arguments;
-    var later = function () {
-      timeout = null;
-      if (!immediate) func.apply(context, args);
-    };
-    var callNow = immediate && !timeout;
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-    if (callNow) func.apply(context, args);
-  };
-}
