@@ -93,13 +93,13 @@ const drawToolTips = () => {
 		const y = tt.y + tt.hh / 2 + 10;
 		const w = tt.w + sidePadding * 2;
 		const h = tt.h + topPadding * 2;
-		ctx.fillStyle = "#BE3527";
+		ctx.fillStyle = "#BE3429";
 		roundRect(x, y, w, h + 3, 3, true, false);
 		ctx.fillStyle = "white";
 		ctx.fillText(tt.text, x + sidePadding, y + tt.h + topPadding);
 
 		// highlight
-		ctx.strokeStyle =  "#BE3527";
+		ctx.strokeStyle =  "#BE3429";
 		ctx.lineWidth = 4;
 		roundRect(tt.x - tt.hw / 2, tt.y - tt.hh / 2, tt.hw, tt.hh, 10);
 	});
@@ -187,7 +187,7 @@ const drawBackground = () => {
   ctx.lineWidth = "2";
   ctx.fillStyle = "#BFEDF6";
   ctx.stroke();
-  ctx.fillStyle = "#565656";
+  ctx.fillStyle = "#333333";
 
   //timestamps
   ctx.font = "22px Sans-Serif";
@@ -216,27 +216,48 @@ const renderLeftBar = () => {
     const yCoord = (canvas.height / 5) * index;
     const yCoordText = 18 + yCoord;
 
-    if (index === currentIntervalIdx) {
-      //time
-      ctx.fillStyle = "#BE3527";
-      roundRect(22, yCoordText, 50, 30, 8, true, false);
-      ctx.fillStyle = "white";
-      ctx.fillText(getCorrectLabel(i), 35, yCoordText + 24);
+       if (index === currentIntervalIdx) {
+         if(currentIntervalIdx == 0 |currentIntervalIdx == 1 |currentIntervalIdx == 2 ) {
+           //time
+           ctx.fillStyle = "#31613B";
+           roundRect(32, yCoordText, 50, 30, 8, true, false);
+           ctx.fillStyle = "white";
+           ctx.fillText(getCorrectLabel(i), 45, yCoordText + 24);
 
-      //boxindicator
-      ctx.fillStyle = "#BE3429";
-      ctx.strokeStyle = "#000000";
-      ctx.lineWidth = "2";
+           //boxindicator
+           ctx.fillStyle = "#31613B";
+           ctx.strokeStyle = "#000000";
+           ctx.lineWidth = "2";
+         }
+         else{
+           //time
+           ctx.fillStyle = "#31613B";
+           roundRect(32, yCoordText, 50, 30, 8, true, false);
+           ctx.fillStyle = "white";
+           ctx.fillText(getCorrectLabel(i), 35, yCoordText + 24);
+
+           //boxindicator
+           ctx.fillStyle = "#31613B";
+           ctx.strokeStyle = "#000000";
+           ctx.lineWidth = "2";
+         }
       roundRect(80, yCoord, 30, canvas.height / 5, 5, true, true);
     } else {
-      //time
-      ctx.fillStyle = "#E0E0E0";
-      roundRect(22, yCoordText, 50, 30, 8, true, false);
-      ctx.font = "22px Sans-Serif";
-      ctx.textAlign = "start";
-      ctx.fontWeight = "50";
-      ctx.fillStyle = "#565656";
-      ctx.fillText(getCorrectLabel(i), 35, yCoordText + 24);
+         //time
+           ctx.fillStyle = "#E0E0E0";
+           roundRect(22, yCoordText, 50, 30, 8, true, false);
+           ctx.font = "22px Sans-Serif";
+           ctx.textAlign = "start";
+           ctx.fontWeight = "50";
+           ctx.fillStyle = "#565656";
+           if(getCorrectLabel(i)==`4h ` |getCorrectLabel(i)==`2h ` | getCorrectLabel(i)==`1h `){
+             ctx.fillText(getCorrectLabel(i), 34, yCoordText + 24);
+         }
+           else {
+             ctx.fillText(getCorrectLabel(i), 24, yCoordText + 24);
+           }
+
+
 
       //boxindicator
       ctx.fillStyle = "#1E44A5";
