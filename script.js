@@ -7,6 +7,8 @@ let currentIntervalIdx = 1;
 let currentXPos = 110;
 let start, end;
 
+let tooltips = [];
+
 const draw = () => {
   canvas = document.getElementById("canvas");
   slider = document.getElementById("scaleSlider");
@@ -33,8 +35,14 @@ const drawCanvas = () => {
 
     currTime.setMinutes(currTime.getMinutes() + interval);
   }
+
+  setTimeout(() => {
+    addToolTip("Try to click here", 255, canvas.height / 2, 20, 90);
+  }, 2000);
+
   drawIndicationLine();
   drawTimespan();
+  drawToolTips();
 };
 
 const drawTimespan = () => {
@@ -73,6 +81,46 @@ const drawTimespan = () => {
     ctx.fillText(end.time, end.pos + 4, 213);
   }
 };
+
+const drawToolTips = () => {
+
+	const sidePadding = 10;
+	const topPadding = 5;
+
+	tooltips.forEach(tt => {
+		// tooltip
+		const x = tt.x - tt.w / 2;
+		const y = tt.y + tt.hh / 2 + 10;
+		const w = tt.w + sidePadding * 2;
+		const h = tt.h + topPadding * 2;
+		ctx.fillStyle = "#BE3527";
+		roundRect(x, y, w, h + 3, 3, true, false);
+		ctx.fillStyle = "white";
+		ctx.fillText(tt.text, x + sidePadding, y + tt.h + topPadding);
+
+		// highlight
+		ctx.strokeStyle =  "#BE3527";
+		ctx.lineWidth = 4;
+		roundRect(tt.x - tt.hw / 2, tt.y - tt.hh / 2, tt.hw, tt.hh, 10);
+	});
+}
+
+const addToolTip = (text, x, y, highlightWidth, highlightHeight) => {
+
+	const textMetrics = ctx.measureText(text);
+	const w = textMetrics.width;
+	const h = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
+	
+	tooltips.push({
+		x: x,
+		y: y,
+		w: w,
+		h: h,
+		hw: highlightWidth,
+		hh: highlightHeight,
+		text: text,
+	})
+}
 
 const drawIndicationLine = () => {
   ctx.setLineDash([5, 3]); /*dashes are 5px and spaces are 3px*/
@@ -255,6 +303,10 @@ const calculateTime = (x) => {
 window.addEventListener("mousemove", handleMouseMove, false);
 window.addEventListener("click", handleClick, false);
 
+// Returns a function, that, as long as it continues to be invoked, will not
+// be triggered. The function will be called after it stops being called for
+// N milliseconds. If `immediate` is passed, trigger the function on the
+// leading edge, instead of the trailing.
 function debounce(func, wait, immediate) {
   var timeout;
   return function () {
