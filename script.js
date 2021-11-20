@@ -1,4 +1,4 @@
-const intervals = [120, 60, 30, 15];
+const intervals = [240, 120, 60, 30, 15];
 const startTime = new Date("2021-10-10T08:00:00");
 const numOfLines = 10;
 
@@ -150,7 +150,7 @@ const drawLabel = (label, x, y) => {
 
   // rectangle
   ctx.fillStyle = "#FFFFFF";
-  roundRect(x - 22, y - 14, 42, 18,5,true,false);
+  roundRect(x - 22, y - 14, 42, 18, 5, true, false);
 
   ctx.fillStyle = "#1D1D1D";
   ctx.font = "15px sans-serif";
@@ -168,7 +168,6 @@ const formatTimeString = (date) => {
 };
 
 const drawBackground = () => {
-
   // rectangles
   const rectHeight = canvas.height / 5;
 
@@ -178,9 +177,9 @@ const drawBackground = () => {
   //backgroundRect
   ctx.beginPath();
   ctx.fillStyle = "#595959";
-  ctx.strokeStyle = "#767676"
+  ctx.strokeStyle = "#767676";
   ctx.lineWidth = "4";
-  roundRect(85, 0, 995, canvas.height,20,true,true);
+  roundRect(85, 0, 995, canvas.height, 20, true, true);
   ctx.stroke();
 
   //left Pane for time
@@ -195,42 +194,7 @@ const drawBackground = () => {
   ctx.textAlign = "start";
   ctx.fontWeight = "50";
 
-  ctx.fillStyle = "#E0E0E0";
-  roundRect(22, 75, 50, 30,8,true,false);
-  roundRect(22, 136, 50, 30,8,true,false);
-  roundRect(22, 195, 50, 30,8,true,false);
-  roundRect(22, 254, 50, 30,8,true,false);
-
-  ctx.font = "22px Sans-Serif";
-  ctx.textAlign = "start";
-  ctx.fontWeight = "50";
-  ctx.fillStyle = "#565656";
-
-  ctx.fillText("2h", 35, 98);
-  ctx.fillText("1h", 35, 160);
-  ctx.fillText("30m", 25, 218);
-  ctx.fillText("15m", 25, 277);
-
-  //marked timestamp
-  ctx.fillStyle = "#BE3527";
-  roundRect(22, 16, 50, 30,8,true,false);
-  ctx.fillStyle = "white";
-  ctx.fillText("4h", 35, 39);
-
-  //marked timebox + rectBorder
-  ctx.fillStyle = "#BE3429";
-  roundRect(80, 1, 30, rectHeight-1,8,true,true);
-  ctx.lineWidth = "2";
-  ctx.strokeStyle = "#000000";
-  roundRect(80, 0, 30, rectHeight,8,false,true);
-
-  ctx.fillStyle = "#1E44A5";
-  ctx.strokeStyle = "#000000";
-  ctx.lineWidth = "2";
-  roundRect(80, rectHeight, 30, rectHeight,5,true,true);
-  roundRect(80, rectHeight*2, 30, rectHeight,5,true,true);
-  roundRect(80, rectHeight*3, 30, rectHeight,5,true,true);
-  roundRect(80, rectHeight*4-1, 30, rectHeight,5,true,true);
+  renderLeftBar();
 
   // borders
   ctx.strokeStyle = "#1D598F";
@@ -239,65 +203,49 @@ const drawBackground = () => {
   ctx.stroke();
 };
 
-// Thanks Juan Mendes
-// https://stackoverflow.com/questions/1255512/how-to-draw-a-rounded-rectangle-using-html-canvas
-
-/**
- * Draws a rounded rectangle using the current state of the canvas.
- * If you omit the last three params, it will draw a rectangle
- * outline with a 5 pixel border radius
- * @param {Number} x The top left x coordinate
- * @param {Number} y The top left y coordinate
- * @param {Number} width The width of the rectangle
- * @param {Number} height The height of the rectangle
- * @param {Number} [radius = 5] The corner radius; It can also be an object
- *                 to specify different radii for corners
- * @param {Number} [radius.tl = 0] Top left
- * @param {Number} [radius.tr = 0] Top right
- * @param {Number} [radius.br = 0] Bottom right
- * @param {Number} [radius.bl = 0] Bottom left
- * @param {Boolean} [fill = false] Whether to fill the rectangle.
- * @param {Boolean} [stroke = true] Whether to stroke the rectangle.
- */
-const roundRect = (x, y, width, height, radius, fill, stroke) => {
-  if (typeof stroke === "undefined") {
-    stroke = true;
-  }
-  if (typeof radius === "undefined") {
-    radius = 5;
-  }
-  if (typeof radius === "number") {
-    radius = { tl: radius, tr: radius, br: radius, bl: radius };
+const getCorrectLabel = (time) => {
+  if (time >= 60) {
+    return `${time / 60}h `;
   } else {
-    var defaultRadius = { tl: 0, tr: 0, br: 0, bl: 0 };
-    for (var side in defaultRadius) {
-      radius[side] = radius[side] || defaultRadius[side];
-    }
-  }
-  ctx.beginPath();
-  ctx.moveTo(x + radius.tl, y);
-  ctx.lineTo(x + width - radius.tr, y);
-  ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
-  ctx.lineTo(x + width, y + height - radius.br);
-  ctx.quadraticCurveTo(
-      x + width,
-      y + height,
-      x + width - radius.br,
-      y + height
-  );
-  ctx.lineTo(x + radius.bl, y + height);
-  ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
-  ctx.lineTo(x, y + radius.tl);
-  ctx.quadraticCurveTo(x, y, x + radius.tl, y);
-  ctx.closePath();
-  if (fill) {
-    ctx.fill();
-  }
-  if (stroke) {
-    ctx.stroke();
+    return `${time}m `;
   }
 };
 
+const renderLeftBar = () => {
+  intervals.forEach((i, index) => {
+    const yCoord = (canvas.height / 5) * index;
+    const yCoordText = 18 + yCoord;
+
+    if (index === currentIntervalIdx) {
+      //time
+      ctx.fillStyle = "#BE3527";
+      roundRect(22, yCoordText, 50, 30, 8, true, false);
+      ctx.fillStyle = "white";
+      ctx.fillText(getCorrectLabel(i), 35, yCoordText + 24);
+
+      //boxindicator
+      ctx.fillStyle = "#BE3429";
+      ctx.strokeStyle = "#000000";
+      ctx.lineWidth = "2";
+      roundRect(80, yCoord, 30, canvas.height / 5, 5, true, true);
+    } else {
+      //time
+      ctx.fillStyle = "#E0E0E0";
+      roundRect(22, yCoordText, 50, 30, 8, true, false);
+      ctx.font = "22px Sans-Serif";
+      ctx.textAlign = "start";
+      ctx.fontWeight = "50";
+      ctx.fillStyle = "#565656";
+      ctx.fillText(getCorrectLabel(i), 35, yCoordText + 24);
+
+      //boxindicator
+      ctx.fillStyle = "#1E44A5";
+      ctx.strokeStyle = "#000000";
+      ctx.lineWidth = "2";
+      roundRect(80, yCoord + 1, 30, canvas.height / 5 - 1, 5, true, true);
+    }
+  });
+};
 
 const getMousePos = (canvas, evt) => {
   var rect = canvas.getBoundingClientRect();
@@ -314,9 +262,9 @@ const handleMouseMove = debounce((e) => {
     currentXPos = pos.x;
 
     //setting current interval
-    const rectHeight = canvas.height / 4;
+    const rectHeight = canvas.height / intervals.length;
 
-    for (let i = 1; i < 5; i++) {
+    for (let i = 1; i < intervals.length + 1; i++) {
       const currentRangeStart = (i - 1) * rectHeight;
       const currentRangeEnd = i * rectHeight;
       if (pos.y > currentRangeStart && pos.y < currentRangeEnd) {
@@ -374,3 +322,62 @@ function debounce(func, wait, immediate) {
     if (callNow) func.apply(context, args);
   };
 }
+
+// Thanks Juan Mendes
+// https://stackoverflow.com/questions/1255512/how-to-draw-a-rounded-rectangle-using-html-canvas
+
+/**
+ * Draws a rounded rectangle using the current state of the canvas.
+ * If you omit the last three params, it will draw a rectangle
+ * outline with a 5 pixel border radius
+ * @param {Number} x The top left x coordinate
+ * @param {Number} y The top left y coordinate
+ * @param {Number} width The width of the rectangle
+ * @param {Number} height The height of the rectangle
+ * @param {Number} [radius = 5] The corner radius; It can also be an object
+ *                 to specify different radii for corners
+ * @param {Number} [radius.tl = 0] Top left
+ * @param {Number} [radius.tr = 0] Top right
+ * @param {Number} [radius.br = 0] Bottom right
+ * @param {Number} [radius.bl = 0] Bottom left
+ * @param {Boolean} [fill = false] Whether to fill the rectangle.
+ * @param {Boolean} [stroke = true] Whether to stroke the rectangle.
+ */
+const roundRect = (x, y, width, height, radius, fill, stroke) => {
+  if (typeof stroke === "undefined") {
+    stroke = true;
+  }
+  if (typeof radius === "undefined") {
+    radius = 5;
+  }
+  if (typeof radius === "number") {
+    radius = { tl: radius, tr: radius, br: radius, bl: radius };
+  } else {
+    var defaultRadius = { tl: 0, tr: 0, br: 0, bl: 0 };
+    for (var side in defaultRadius) {
+      radius[side] = radius[side] || defaultRadius[side];
+    }
+  }
+  ctx.beginPath();
+  ctx.moveTo(x + radius.tl, y);
+  ctx.lineTo(x + width - radius.tr, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius.tr);
+  ctx.lineTo(x + width, y + height - radius.br);
+  ctx.quadraticCurveTo(
+    x + width,
+    y + height,
+    x + width - radius.br,
+    y + height
+  );
+  ctx.lineTo(x + radius.bl, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius.bl);
+  ctx.lineTo(x, y + radius.tl);
+  ctx.quadraticCurveTo(x, y, x + radius.tl, y);
+  ctx.closePath();
+  if (fill) {
+    ctx.fill();
+  }
+  if (stroke) {
+    ctx.stroke();
+  }
+};
