@@ -56,7 +56,7 @@ const drawTimespan = () => {
 
     // labels underneath start
     ctx.fillStyle = "#343434";
-    ctx.fillRect(start.pos, 195, 40, 25);
+    ctx.fillRect(start.pos, 195, 50, 25);
     ctx.fillStyle = "#FFFFFF";
     ctx.font = "16px sans-serif";
     ctx.fillText(start.time, start.pos + 4, 213);
@@ -75,52 +75,58 @@ const drawTimespan = () => {
     ctx.fillRect(start.pos, 110, end.pos - start.pos, 80);
 
     ctx.fillStyle = "#343434";
-    ctx.fillRect(end.pos, 195, 40, 25);
+    ctx.fillRect(end.pos, 195, 50, 25);
     ctx.fillStyle = "#FFFFFF";
     ctx.font = "16px sans-serif";
     ctx.fillText(end.time, end.pos + 4, 213);
+
+    const cls = getCloseInfo();
+    ctx.fillRect(cls.x, cls.y, cls.w, cls.h);
   }
 };
 
 const drawToolTips = () => {
+  const sidePadding = 10;
+  const topPadding = 5;
 
-	const sidePadding = 10;
-	const topPadding = 5;
+  tooltips.forEach((tt) => {
+    // tooltip
+    const x = tt.x - tt.w / 2;
+    const y = tt.y + tt.hh / 2 + 10;
+    const w = tt.w + sidePadding * 2;
+    const h = tt.h + topPadding * 2;
+    ctx.fillStyle = "#BE3429";
+    roundRect(x, y, w, h + 3, 3, true, false);
+    ctx.fillStyle = "white";
+    ctx.fillText(tt.text, x + sidePadding, y + tt.h + topPadding);
 
-	tooltips.forEach(tt => {
-		// tooltip
-		const x = tt.x - tt.w / 2;
-		const y = tt.y + tt.hh / 2 + 10;
-		const w = tt.w + sidePadding * 2;
-		const h = tt.h + topPadding * 2;
-		ctx.fillStyle = "#BE3429";
-		roundRect(x, y, w, h + 3, 3, true, false);
-		ctx.fillStyle = "white";
-		ctx.fillText(tt.text, x + sidePadding, y + tt.h + topPadding);
+    // highlight
+    ctx.strokeStyle = "#BE3429";
+    ctx.lineWidth = 4;
+    roundRect(tt.x - tt.hw / 2, tt.y - tt.hh / 2, tt.hw, tt.hh, 10);
+  });
+};
 
-		// highlight
-		ctx.strokeStyle =  "#BE3429";
-		ctx.lineWidth = 4;
-		roundRect(tt.x - tt.hw / 2, tt.y - tt.hh / 2, tt.hw, tt.hh, 10);
-	});
-}
+const getCloseInfo = () => {
+  return { x: end.pos - 4, y: 100, w: 18, h: 18 };
+};
 
 const addToolTip = (text, x, y, highlightWidth, highlightHeight) => {
+  const textMetrics = ctx.measureText(text);
+  const w = textMetrics.width;
+  const h =
+    textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
 
-	const textMetrics = ctx.measureText(text);
-	const w = textMetrics.width;
-	const h = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
-	
-	tooltips.push({
-		x: x,
-		y: y,
-		w: w,
-		h: h,
-		hw: highlightWidth,
-		hh: highlightHeight,
-		text: text,
-	})
-}
+  tooltips.push({
+    x: x,
+    y: y,
+    w: w,
+    h: h,
+    hw: highlightWidth,
+    hh: highlightHeight,
+    text: text,
+  });
+};
 
 const drawIndicationLine = () => {
   ctx.setLineDash([5, 3]); /*dashes are 5px and spaces are 3px*/
@@ -216,48 +222,52 @@ const renderLeftBar = () => {
     const yCoord = (canvas.height / 5) * index;
     const yCoordText = 18 + yCoord;
 
-       if (index === currentIntervalIdx) {
-         if(currentIntervalIdx == 0 |currentIntervalIdx == 1 |currentIntervalIdx == 2 ) {
-           //time
-           ctx.fillStyle = "#31613B";
-           roundRect(32, yCoordText, 50, 30, 8, true, false);
-           ctx.fillStyle = "white";
-           ctx.fillText(getCorrectLabel(i), 45, yCoordText + 24);
+    if (index === currentIntervalIdx) {
+      if (
+        (currentIntervalIdx == 0) |
+        (currentIntervalIdx == 1) |
+        (currentIntervalIdx == 2)
+      ) {
+        //time
+        ctx.fillStyle = "#31613B";
+        roundRect(32, yCoordText, 50, 30, 8, true, false);
+        ctx.fillStyle = "white";
+        ctx.fillText(getCorrectLabel(i), 45, yCoordText + 24);
 
-           //boxindicator
-           ctx.fillStyle = "#31613B";
-           ctx.strokeStyle = "#000000";
-           ctx.lineWidth = "2";
-         }
-         else{
-           //time
-           ctx.fillStyle = "#31613B";
-           roundRect(32, yCoordText, 50, 30, 8, true, false);
-           ctx.fillStyle = "white";
-           ctx.fillText(getCorrectLabel(i), 35, yCoordText + 24);
+        //boxindicator
+        ctx.fillStyle = "#31613B";
+        ctx.strokeStyle = "#000000";
+        ctx.lineWidth = "2";
+      } else {
+        //time
+        ctx.fillStyle = "#31613B";
+        roundRect(32, yCoordText, 50, 30, 8, true, false);
+        ctx.fillStyle = "white";
+        ctx.fillText(getCorrectLabel(i), 35, yCoordText + 24);
 
-           //boxindicator
-           ctx.fillStyle = "#31613B";
-           ctx.strokeStyle = "#000000";
-           ctx.lineWidth = "2";
-         }
+        //boxindicator
+        ctx.fillStyle = "#31613B";
+        ctx.strokeStyle = "#000000";
+        ctx.lineWidth = "2";
+      }
       roundRect(80, yCoord, 30, canvas.height / 5, 5, true, true);
     } else {
-         //time
-           ctx.fillStyle = "#E0E0E0";
-           roundRect(22, yCoordText, 50, 30, 8, true, false);
-           ctx.font = "22px Sans-Serif";
-           ctx.textAlign = "start";
-           ctx.fontWeight = "50";
-           ctx.fillStyle = "#565656";
-           if(getCorrectLabel(i)==`4h ` |getCorrectLabel(i)==`2h ` | getCorrectLabel(i)==`1h `){
-             ctx.fillText(getCorrectLabel(i), 34, yCoordText + 24);
-         }
-           else {
-             ctx.fillText(getCorrectLabel(i), 24, yCoordText + 24);
-           }
-
-
+      //time
+      ctx.fillStyle = "#E0E0E0";
+      roundRect(22, yCoordText, 50, 30, 8, true, false);
+      ctx.font = "22px Sans-Serif";
+      ctx.textAlign = "start";
+      ctx.fontWeight = "50";
+      ctx.fillStyle = "#565656";
+      if (
+        (getCorrectLabel(i) == `4h `) |
+        (getCorrectLabel(i) == `2h `) |
+        (getCorrectLabel(i) == `1h `)
+      ) {
+        ctx.fillText(getCorrectLabel(i), 34, yCoordText + 24);
+      } else {
+        ctx.fillText(getCorrectLabel(i), 24, yCoordText + 24);
+      }
 
       //boxindicator
       ctx.fillStyle = "#1E44A5";
@@ -279,17 +289,19 @@ const getMousePos = (canvas, evt) => {
 const handleMouseMove = debounce((e) => {
   if (e) {
     var pos = getMousePos(canvas, e);
-    //setting horizontal line
-    currentXPos = pos.x;
+    if (pos.x > 110 && pos.x < canvas.width) {
+      //setting horizontal line
+      currentXPos = pos.x;
 
-    //setting current interval
-    const rectHeight = canvas.height / intervals.length;
+      //setting current interval
+      const rectHeight = canvas.height / intervals.length;
 
-    for (let i = 1; i < intervals.length + 1; i++) {
-      const currentRangeStart = (i - 1) * rectHeight;
-      const currentRangeEnd = i * rectHeight;
-      if (pos.y > currentRangeStart && pos.y < currentRangeEnd) {
-        currentIntervalIdx = i - 1;
+      for (let i = 1; i < intervals.length + 1; i++) {
+        const currentRangeStart = (i - 1) * rectHeight;
+        const currentRangeEnd = i * rectHeight;
+        if (pos.y > currentRangeStart && pos.y < currentRangeEnd) {
+          currentIntervalIdx = i - 1;
+        }
       }
     }
   }
@@ -300,13 +312,33 @@ const handleClick = (e) => {
   if (e) {
     var pos = getMousePos(canvas, e);
 
-    if (!start) {
-      start = { pos: pos.x, time: calculateTime(pos.x) };
-    } else {
-      end = { pos: pos.x, time: calculateTime(pos.x) };
+    if (pos.x > 110 && pos.x < canvas.width) {
+      if (!start) {
+        start = { pos: pos.x, time: calculateTime(pos.x) };
+      } else if (pos.x > start.pos) {
+        end = { pos: pos.x, time: calculateTime(pos.x) };
+      }
+    }
+    if (isInsideClose(pos)) {
+      start = null;
+      end = null;
     }
   }
   drawCanvas();
+};
+
+const isInsideClose = (pos) => {
+  if (end) {
+    const cls = getCloseInfo();
+    if (
+      pos.x > cls.x &&
+      pos.x < cls.x + cls.w &&
+      pos.y > cls.y &&
+      pos.y < cls.y + cls.h
+    ) {
+      return true;
+    }
+  }
 };
 
 const calculateTime = (x) => {
@@ -317,8 +349,12 @@ const calculateTime = (x) => {
   const pixelsFromStart = x - leftMargin;
   const mins = (totalMins / totalWidth) * pixelsFromStart;
 
-  const time = ((480 + mins) / 60).toFixed(1);
-  return time.toString();
+  const time = (480 + mins) / 60;
+
+  const hours = Math.floor(time);
+  const minutes = Math.floor((time % 1) * 60);
+
+  return `${hours < 10 ? 0 : ""}${hours}:${minutes < 10 ? 0 : ""}${minutes}`;
 };
 
 window.addEventListener("mousemove", handleMouseMove, false);
