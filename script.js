@@ -8,6 +8,7 @@ let currentXPos = 110;
 let start, end;
 
 let tooltips = [];
+let userHasInteracted = false;
 
 const draw = () => {
   canvas = document.getElementById("canvas");
@@ -15,7 +16,15 @@ const draw = () => {
   if (canvas.getContext) {
     ctx = canvas.getContext("2d");
 
-    drawCanvas();
+    setTimeout(() => {
+      if (!userHasInteracted) addToolTip("Try to click here", 255, canvas.height / 2, 20, 90);
+    }, 1500);
+  
+    setTimeout(() => {
+      if (!userHasInteracted) addToolTip("... and then here", 700, canvas.height / 2, 20, 90);
+    }, 3000)
+
+    setInterval(drawCanvas, 1000 / 60);
   }
 };
 
@@ -35,10 +44,6 @@ const drawCanvas = () => {
 
     currTime.setMinutes(currTime.getMinutes() + interval);
   }
-
-  setTimeout(() => {
-    addToolTip("Try to click here", 255, canvas.height / 2, 20, 90);
-  }, 2000);
 
   drawIndicationLine();
   drawTimespan();
@@ -326,6 +331,9 @@ const handleClick = (e) => {
       } else if (pos.x > start.pos) {
         end = { pos: pos.x, time: calculateTime(pos.x) };
       }
+
+      userHasInteracted = true;
+      tooltips = [];
     }
     if (isInsideClose(pos)) {
       start = null;
