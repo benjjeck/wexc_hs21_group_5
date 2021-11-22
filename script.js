@@ -80,8 +80,11 @@ const drawTimespan = () => {
     ctx.font = "16px sans-serif";
     ctx.fillText(end.time, end.pos + 4, 213);
 
+    // close
     const cls = getCloseInfo();
     ctx.fillRect(cls.x, cls.y, cls.w, cls.h);
+    ctx.fillStyle = "#000";
+    ctx.fillText("X", cls.x + 4, cls.y + 14);
   }
 };
 
@@ -289,6 +292,11 @@ const getMousePos = (canvas, evt) => {
 const handleMouseMove = debounce((e) => {
   if (e) {
     var pos = getMousePos(canvas, e);
+    if (isInsideClose(pos)) {
+      document.body.style.cursor = "pointer";
+    } else {
+      document.body.style.cursor = "col-resize";
+    }
     if (pos.x > 110 && pos.x < canvas.width) {
       //setting horizontal line
       currentXPos = pos.x;
