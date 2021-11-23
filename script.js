@@ -10,6 +10,8 @@ let start, end;
 let tooltips = [];
 let userHasInteracted = false;
 
+let mouse;
+
 const draw = () => {
   canvas = document.getElementById("canvas");
   slider = document.getElementById("scaleSlider");
@@ -47,8 +49,76 @@ const drawCanvas = () => {
 
   drawIndicationLine();
   drawTimespan();
+  drawBubble();
   drawToolTips();
 };
+
+const drawBubble = () => {
+  if (!end || !end.pos) return;
+
+  if (mouse.y < canvas.height / 2) {
+    // draw bubble on top
+
+    let x = end.pos;
+    let y = canvas.height / 2 - 70;
+
+    ctx.lineWidth = 2;
+    ctx.fillStyle = "#001940";
+    
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.bezierCurveTo(x + 15, y -  3, x + 40, y - 50, x, y - 50);
+    ctx.bezierCurveTo(x - 40, y - 50, x - 15, y -  3, x, y     );
+    ctx.closePath();
+    ctx.fill();
+
+    let interval = intervals[currentIntervalIdx];
+    let intervalString;
+    if (interval > 60) {
+      intervalString = interval / 60 + "h";
+    } else {
+      intervalString = interval + "m"
+    }
+
+    const textMetrics = ctx.measureText(intervalString);
+    const w = textMetrics.width;
+
+    ctx.fillStyle = "white";
+    ctx.fillText(intervalString, x - w / 2, y - 25)
+
+  } else {
+    // draw bubble below
+
+    let x = end.pos;
+    let y = canvas.height / 2 + 70;
+
+    ctx.lineWidth = 2;
+    ctx.fillStyle = "#001940";
+    
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.bezierCurveTo(x + 15, y +  3, x + 40, y + 50, x, y + 50);
+    ctx.bezierCurveTo(x - 40, y + 50, x - 15, y +  3, x, y     );
+    ctx.closePath();
+    ctx.fill();
+
+    let interval = intervals[currentIntervalIdx];
+    let intervalString;
+    if (interval > 60) {
+      intervalString = interval / 60 + "h";
+    } else {
+      intervalString = interval + "m"
+    }
+
+    const textMetrics = ctx.measureText(intervalString);
+    const w = textMetrics.width;
+
+    ctx.fillStyle = "white";
+    ctx.fillText(intervalString, x - w / 2, y + 35)
+    
+  }
+
+}
 
 const drawTimespan = () => {
   if (start) {
@@ -88,7 +158,6 @@ const drawTimespan = () => {
     // close
     const cls = getCloseInfo();
     roundRect(cls.x, cls.y, cls.w, cls.h, 5, true, false);
-    //ctx.fillRect(cls.x, cls.y, cls.w, cls.h);
     ctx.fillStyle = "#000";
     ctx.fillText("X", cls.x + 4, cls.y + 15);
   }
@@ -123,8 +192,7 @@ const getCloseInfo = () => {
 const addToolTip = (text, x, y, highlightWidth, highlightHeight) => {
   const textMetrics = ctx.measureText(text);
   const w = textMetrics.width;
-  const h =
-    textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
+  const h = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
 
   tooltips.push({
     x: x,
@@ -374,7 +442,10 @@ const calculateTime = (x) => {
   return `${hours < 10 ? 0 : ""}${hours}:${minutes < 10 ? 0 : ""}${minutes}`;
 };
 
-window.addEventListener("mousemove", handleMouseMove, false);
+window.addEventListener("mousemove", (event) => {
+  mouse = getMousePos(canvas, event)
+  handleMouseMove(event);
+}, false);
 window.addEventListener("click", handleClick, false);
 
 // Returns a function, that, as long as it continues to be invoked, will not
