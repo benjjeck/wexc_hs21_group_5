@@ -5,6 +5,7 @@ const numOfLines = 10;
 let interval, canvas, ctx;
 let currentIntervalIdx = 1;
 let currentXPos = 110;
+let currentYPos = 110;
 let start, end;
 
 let tooltips = [];
@@ -19,12 +20,14 @@ const draw = () => {
     ctx = canvas.getContext("2d");
 
     setTimeout(() => {
-      if (!userHasInteracted) addToolTip("Try to click here", 255, canvas.height / 2, 20, 90);
+      if (!userHasInteracted)
+        addToolTip("Try to click here", 255, canvas.height / 2, 20, 90);
     }, 1500);
-  
+
     setTimeout(() => {
-      if (!userHasInteracted) addToolTip("... and then here", 700, canvas.height / 2, 20, 90);
-    }, 3000)
+      if (!userHasInteracted)
+        addToolTip("... and then here", 700, canvas.height / 2, 20, 90);
+    }, 3000);
 
     setInterval(drawCanvas, 1000 / 60);
   }
@@ -54,21 +57,19 @@ const drawCanvas = () => {
 };
 
 const drawBubble = () => {
-  if (!end || !end.pos) return;
-
   if (mouse.y < canvas.height / 2) {
     // draw bubble on top
 
-    let x = end.pos;
-    let y = canvas.height / 2 - 70;
+    let x = currentXPos;
+    let y = currentYPos;
 
     ctx.lineWidth = 2;
     ctx.fillStyle = "#001940";
-    
+
     ctx.beginPath();
     ctx.moveTo(x, y);
-    ctx.bezierCurveTo(x + 15, y -  3, x + 40, y - 50, x, y - 50);
-    ctx.bezierCurveTo(x - 40, y - 50, x - 15, y -  3, x, y     );
+    ctx.bezierCurveTo(x + 15, y - 3, x + 40, y - 50, x, y - 50);
+    ctx.bezierCurveTo(x - 40, y - 50, x - 15, y - 3, x, y);
     ctx.closePath();
     ctx.fill();
 
@@ -77,28 +78,27 @@ const drawBubble = () => {
     if (interval > 60) {
       intervalString = interval / 60 + "h";
     } else {
-      intervalString = interval + "m"
+      intervalString = interval + "m";
     }
 
     const textMetrics = ctx.measureText(intervalString);
     const w = textMetrics.width;
 
     ctx.fillStyle = "white";
-    ctx.fillText(intervalString, x - w / 2, y - 25)
-
+    ctx.fillText(intervalString, x - w / 2, y - 25);
   } else {
     // draw bubble below
 
-    let x = end.pos;
-    let y = canvas.height / 2 + 70;
+    let x = currentXPos;
+    let y = currentYPos;
 
     ctx.lineWidth = 2;
     ctx.fillStyle = "#001940";
-    
+
     ctx.beginPath();
     ctx.moveTo(x, y);
-    ctx.bezierCurveTo(x + 15, y +  3, x + 40, y + 50, x, y + 50);
-    ctx.bezierCurveTo(x - 40, y + 50, x - 15, y +  3, x, y     );
+    ctx.bezierCurveTo(x + 15, y + 3, x + 40, y + 50, x, y + 50);
+    ctx.bezierCurveTo(x - 40, y + 50, x - 15, y + 3, x, y);
     ctx.closePath();
     ctx.fill();
 
@@ -107,18 +107,16 @@ const drawBubble = () => {
     if (interval > 60) {
       intervalString = interval / 60 + "h";
     } else {
-      intervalString = interval + "m"
+      intervalString = interval + "m";
     }
 
     const textMetrics = ctx.measureText(intervalString);
     const w = textMetrics.width;
 
     ctx.fillStyle = "white";
-    ctx.fillText(intervalString, x - w / 2, y + 35)
-    
+    ctx.fillText(intervalString, x - w / 2, y + 35);
   }
-
-}
+};
 
 const drawTimespan = () => {
   if (start) {
@@ -192,7 +190,8 @@ const getCloseInfo = () => {
 const addToolTip = (text, x, y, highlightWidth, highlightHeight) => {
   const textMetrics = ctx.measureText(text);
   const w = textMetrics.width;
-  const h = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
+  const h =
+    textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
 
   tooltips.push({
     x: x,
@@ -374,6 +373,7 @@ const handleMouseMove = debounce((e) => {
     if (pos.x > 110 && pos.x < canvas.width) {
       //setting horizontal line
       currentXPos = pos.x;
+      currentYPos = pos.y;
 
       //setting current interval
       const rectHeight = canvas.height / intervals.length;
@@ -442,10 +442,14 @@ const calculateTime = (x) => {
   return `${hours < 10 ? 0 : ""}${hours}:${minutes < 10 ? 0 : ""}${minutes}`;
 };
 
-window.addEventListener("mousemove", (event) => {
-  mouse = getMousePos(canvas, event)
-  handleMouseMove(event);
-}, false);
+window.addEventListener(
+  "mousemove",
+  (event) => {
+    mouse = getMousePos(canvas, event);
+    handleMouseMove(event);
+  },
+  false
+);
 window.addEventListener("click", handleClick, false);
 
 // Returns a function, that, as long as it continues to be invoked, will not
