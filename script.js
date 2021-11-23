@@ -52,12 +52,12 @@ const drawCanvas = () => {
 
   drawIndicationLine();
   drawTimespan();
-  drawBubble();
   drawToolTips();
+  drawBubble();
 };
 
 const drawBubble = () => {
-  if (mouse.y < canvas.height / 2) {
+  if (currentYPos < canvas.height / 2) {
     // draw bubble on top
 
     let x = currentXPos;
@@ -73,19 +73,13 @@ const drawBubble = () => {
     ctx.closePath();
     ctx.fill();
 
-    let interval = intervals[currentIntervalIdx];
-    let intervalString;
-    if (interval > 60) {
-      intervalString = interval / 60 + "h";
-    } else {
-      intervalString = interval + "m";
-    }
+    let currentTime = calculateTime(currentXPos);
 
-    const textMetrics = ctx.measureText(intervalString);
+    const textMetrics = ctx.measureText(currentTime);
     const w = textMetrics.width;
 
     ctx.fillStyle = "white";
-    ctx.fillText(intervalString, x - w / 2, y - 25);
+    ctx.fillText(currentTime, x - w / 2, y - 25);
   } else {
     // draw bubble below
 
@@ -102,19 +96,13 @@ const drawBubble = () => {
     ctx.closePath();
     ctx.fill();
 
-    let interval = intervals[currentIntervalIdx];
-    let intervalString;
-    if (interval > 60) {
-      intervalString = interval / 60 + "h";
-    } else {
-      intervalString = interval + "m";
-    }
+    let currentTime = calculateTime(currentXPos);
 
-    const textMetrics = ctx.measureText(intervalString);
+    const textMetrics = ctx.measureText(currentTime);
     const w = textMetrics.width;
 
     ctx.fillStyle = "white";
-    ctx.fillText(intervalString, x - w / 2, y + 35);
+    ctx.fillText(currentTime, x - w / 2, y + 35);
   }
 };
 
@@ -436,7 +424,7 @@ const calculateTime = (x) => {
 
   const time = (480 + mins) / 60;
 
-  const hours = Math.floor(time);
+  const hours = Math.floor(time) % 24;
   const minutes = Math.floor((time % 1) * 60);
 
   return `${hours < 10 ? 0 : ""}${hours}:${minutes < 10 ? 0 : ""}${minutes}`;
