@@ -61,7 +61,7 @@ const drawBubble = () => {
     // draw bubble on top
 
     let x = currentXPos;
-    let y = currentYPos;
+    let y = currentYPos - 10;
 
     ctx.lineWidth = 2;
     ctx.fillStyle = "#001940";
@@ -84,7 +84,7 @@ const drawBubble = () => {
     // draw bubble below
 
     let x = currentXPos;
-    let y = currentYPos;
+    let y = currentYPos + 10;
 
     ctx.lineWidth = 2;
     ctx.fillStyle = "#001940";
