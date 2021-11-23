@@ -57,7 +57,7 @@ const drawCanvas = () => {
 };
 
 const drawBubble = () => {
-  if (currentYPos < canvas.height / 2) {
+  if (currentYPos > canvas.height / 2) {
     // draw bubble on top
 
     let x = currentXPos;
