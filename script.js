@@ -87,9 +87,10 @@ const drawTimespan = () => {
 
     // close
     const cls = getCloseInfo();
-    ctx.fillRect(cls.x, cls.y, cls.w, cls.h);
+    roundRect(cls.x, cls.y, cls.w, cls.h, 5, true, false);
+    //ctx.fillRect(cls.x, cls.y, cls.w, cls.h);
     ctx.fillStyle = "#000";
-    ctx.fillText("X", cls.x + 4, cls.y + 14);
+    ctx.fillText("X", cls.x + 4, cls.y + 15);
   }
 };
 
